@@ -1,0 +1,96 @@
+import java.util.Scanner;
+import java.util.*;
+
+class Node{
+float data;
+Node left,right;
+Node(float item){
+data = item;
+left=right=null;
+}
+}
+
+class Records{
+Node root;
+Node *root = null;
+
+// Sum of Child Nodes must be less than root node
+int sumProperty(Node node){
+int leftData = 0, rightData = 0;
+if(node.left!=null)leftData = node.left.data;
+if(node.right!=null)rightData = node.right.data;
+if((node.data == leftData+rightData) && sumProperty(node.left)!=0 && sumProperty(node.right)!=0)
+return 1;
+}
+
+// To edit value of a node
+int change(Node n, int add){
+if(n==null)return add;
+int currentValue = n.data;
+n.data = change(n.right, add);
+return change(n.left, n.data + currentValue);
+}
+
+//max depth from genesis node or any node
+
+int maxDepth(Node node){
+if(node==null)return 0;
+else{
+int lDepth = maxDepth(node.left);
+int rDepth = maxDepth(node.right);
+if(lDepth<rDepth)return rDepth+1;
+else return (lDepth + 1);
+}}
+
+//Merge two nodes
+//Means merge two trees like
+Node mergedTree(Node tree1, Node tree2){
+if(tree1==null)return tree2;
+Stack <Node[]> stack = new Stack < > ();
+stack.push(new Node[] {tree1,tree2});
+while(!stack.isEmpty()){
+Node[] nd = stack.pop();
+if(nd[0]==null || nd[1]==null)continue;
+nd[0].data = nd[0].data + nd[1].data;
+if(nd[0].left==null)nd[0].left = nd[1].left;
+else { 
+stack.push(new Node[] {nd[0].left, nd[1].left}); 
+}
+if(nd[0].right==null)nd[0].right = nd[1].right;
+else{ 
+stack.push(new Node[] {nd[0].right, nd[1].right});
+}
+}
+return tree1;
+}
+
+
+Records(float data){
+root = new Node(data);
+}
+
+Records(){
+root = null;
+}
+
+public static void main(String[] args){
+Records rec = new Records();
+Scanner scanner = new Scanner(System.in);
+float r = scanner.nextFloat();
+rec.root = new Node(r);
+
+// To change node value call change function like
+change(root, 5);
+
+// To check sum Property of a particular genesis node
+if(tree.sumProperty(tree.node)!=0)return "Follows sum property";
+else return "You can not add another node as it is already not following sum property";
+
+// To calculate maxDepth from any node
+tree.maxDepth(tree.node);
+
+// To merge two nodes of a tree we need to create another similar binary tree and merge their nodes just like
+mergedTree(tree1, tree2);
+}
+}
+
